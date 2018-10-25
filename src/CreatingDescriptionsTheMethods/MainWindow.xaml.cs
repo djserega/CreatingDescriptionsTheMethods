@@ -23,6 +23,22 @@ namespace CreatingDescriptionsTheMethods
         public MainWindow()
         {
             InitializeComponent();
+
+            DataContext = this;
+        }
+
+        public Models.DataMethod DataMethod { get; set; } = new Models.DataMethod();
+
+        private void ButtonGetTextInClipboar_Click(object sender, RoutedEventArgs e)
+        {
+            DataMethod.StringMethod = Clipboard.GetText();
+
+            BindingOperations.GetBindingExpression(TextBoxDescription, TextBox.TextProperty).UpdateTarget();
+        }
+
+        private void ButtonTextToClipboard_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(DataMethod.Description);
         }
     }
 }
