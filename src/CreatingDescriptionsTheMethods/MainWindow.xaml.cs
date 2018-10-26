@@ -20,24 +20,43 @@ namespace CreatingDescriptionsTheMethods
     /// </summary>
     public partial class MainWindow : Window
     {
+        private GlobalHotKeyManager _hotKeyManager = new GlobalHotKeyManager();
+
         public MainWindow()
         {
             InitializeComponent();
 
             DataContext = this;
+
+            ProcessTextInClipboardEvents.ProcessTextInClipboardEvent += 
+                () =>
+                {
+                    ProcessTextWithClipboard();
+                    SetDescriptionToClipboard();
+                };
         }
 
         public Models.DataMethod DataMethod { get; set; } = new Models.DataMethod();
 
         private void ButtonGetTextInClipboar_Click(object sender, RoutedEventArgs e)
         {
-            DataMethod.StringMethod = Clipboard.GetText();
+            ProcessTextWithClipboard();
 
             BindingOperations.GetBindingExpression(TextBoxDescription, TextBox.TextProperty).UpdateTarget();
             BindingOperations.GetBindingExpression(TextBlockError, TextBlock.TextProperty).UpdateTarget();
         }
 
         private void ButtonTextToClipboard_Click(object sender, RoutedEventArgs e)
+        {
+            SetDescriptionToClipboard();
+        }
+
+        private void ProcessTextWithClipboard()
+        {
+            DataMethod.StringMethod = Clipboard.GetText();
+        }
+
+        private void SetDescriptionToClipboard()
         {
             Clipboard.SetText(DataMethod.Description);
         }
