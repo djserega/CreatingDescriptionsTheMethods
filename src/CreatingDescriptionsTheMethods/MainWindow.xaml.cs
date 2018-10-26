@@ -53,7 +53,8 @@ namespace CreatingDescriptionsTheMethods
 
         private void ProcessTextWithClipboard()
         {
-            DataMethod.StringMethod = Clipboard.GetText();
+            if (Clipboard.ContainsText())
+                DataMethod.StringMethod = Clipboard.GetText();
         }
 
         private void SetDescriptionToClipboard()
