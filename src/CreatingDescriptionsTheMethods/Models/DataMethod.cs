@@ -18,6 +18,7 @@ namespace CreatingDescriptionsTheMethods.Models
         public string StringMethod { get => _stringMethod; set { _stringMethod = value; SetDescription(); } }
         public string Description { get; set; } = string.Empty;
         public string TextError { get; private set; } = string.Empty;
+        public bool IncludeStringMethod { get; set; } = true;
 
         private bool StringIsFunction { get => StringMethod.TrimStart().StartsWith("функция", true, null); }
         private bool StringIsProcedure { get => StringMethod.TrimStart().StartsWith("процедура", true, null); }
@@ -63,6 +64,9 @@ namespace CreatingDescriptionsTheMethods.Models
             builderDescription.AppendLine("//");
 
             Description = builderDescription.ToString();
+
+            if (IncludeStringMethod)
+                Description += _stringMethod;
         }
 
         private void SetParametersMethod()
