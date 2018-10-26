@@ -34,15 +34,15 @@ namespace CreatingDescriptionsTheMethods.Models
         internal string Type { get; set; }
         internal string Description { get; set; }
 
-        internal bool IsArray { get => Name.ToLower().StartsWith("мс"); }
-        internal bool IsMap { get => Name.ToLower().StartsWith("со"); }
-        internal bool IsStructure { get => Name.ToLower().StartsWith("ст"); }
-        internal bool IsValueList { get => Name.ToLower().StartsWith("сз"); }
-        internal bool IsValueTable { get => Name.ToLower().StartsWith("тз"); }
-        internal bool IsValueTree { get => Name.ToLower().StartsWith("дз"); }
-        internal bool IsFixedArray { get => Name.ToLower().StartsWith("фмс"); }
-        internal bool IsFixedMap { get => Name.ToLower().StartsWith("фсо"); }
-        internal bool IsFixedStructure { get => Name.ToLower().StartsWith("фст"); }
+        internal bool IsArray { get => Name.StartsWith("мс"); }
+        internal bool IsMap { get => Name.StartsWith("со"); }
+        internal bool IsStructure { get => Name.StartsWith("ст"); }
+        internal bool IsValueList { get => Name.StartsWith("сз"); }
+        internal bool IsValueTable { get => Name.StartsWith("тз"); }
+        internal bool IsValueTree { get => Name.StartsWith("дз"); }
+        internal bool IsFixedArray { get => Name.StartsWith("фмс"); }
+        internal bool IsFixedMap { get => Name.StartsWith("фсо"); }
+        internal bool IsFixedStructure { get => Name.StartsWith("фст"); }
 
         internal void SetTypeByName()
         {
