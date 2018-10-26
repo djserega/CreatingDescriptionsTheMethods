@@ -13,7 +13,7 @@ namespace CreatingDescriptionsTheMethods.Models
     public class DataMethod : INotifyPropertyChanged
     {
         private string _stringMethod;
-        private List<string> _parametersMethod = new List<string>();
+        private List<ObjectParameter> _parametersMethod = new List<ObjectParameter>();
 
         public string StringMethod { get => _stringMethod; set { _stringMethod = value; SetDescription(); } }
         public string Description { get; set; } = string.Empty;
@@ -50,8 +50,8 @@ namespace CreatingDescriptionsTheMethods.Models
             if (_parametersMethod.Count == 0)
                 builderDescription.AppendLine("//\t\t-  - ");
             else
-                foreach (string parameterName in _parametersMethod)
-                    builderDescription.AppendLine($"//\t\t{parameterName} -  - ");
+                foreach (ObjectParameter parameter in _parametersMethod)
+                    builderDescription.AppendLine($"//\t\t{parameter.Name} - {parameter.Type} - {parameter.Description}");
 
             if (StringIsFunction)
             {
@@ -104,9 +104,12 @@ namespace CreatingDescriptionsTheMethods.Models
 
                             int positionEqual = paramenterName.IndexOf('=');
                             if (positionEqual > 0)
-                                _parametersMethod.Add(paramenterName.Substring(0, positionEqual));
-                            else
-                                _parametersMethod.Add(paramenterName);
+                                paramenterName = paramenterName.Substring(0, positionEqual);
+
+                            ObjectParameter objectParameter = new ObjectParameter(paramenterName);
+                            objectParameter.SetTypeByName();
+
+                            _parametersMethod.Add(objectParameter);
                         }
                 }
             }
