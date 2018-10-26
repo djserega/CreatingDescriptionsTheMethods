@@ -13,12 +13,10 @@ namespace CreatingDescriptionsTheMethods
         private LowLevelKeyboardListener _listener;
 
         internal bool PressedLeftCtrl { get; private set; }
-        internal bool PressedLeftAlt { get; private set; }
-        internal bool PressedC { get; private set; }
+        internal bool PressedD { get; private set; }
         
         private const Key _keyLeftCtrl = Key.LeftCtrl;
-        private const Key _keyLeftAlt = Key.LeftAlt;
-        private const Key _keyC = Key.C;
+        private const Key _keyD = Key.D;
 
         internal GlobalHotKeyManager()
         {
@@ -36,23 +34,19 @@ namespace CreatingDescriptionsTheMethods
                 case _keyLeftCtrl:
                     PressedLeftCtrl = true;
                     break;
-                case _keyLeftAlt:
-                    PressedLeftAlt = true;
-                    break;
-                case _keyC:
-                    PressedC = true;
+                case _keyD:
+                    PressedD = true;
                     break;
             }
 
-            if (PressedLeftCtrl && PressedLeftAlt)
+            if (PressedLeftCtrl)
             {
-                if (PressedC)
+                if (PressedD)
                 {
                     ProcessTextInClipboardEvents.EvokeProcess();
 
                     PressedLeftCtrl = false;
-                    PressedLeftAlt = false;
-                    PressedC = false;
+                    PressedD = false;
                 }
             }
         }
@@ -64,11 +58,8 @@ namespace CreatingDescriptionsTheMethods
                 case _keyLeftCtrl:
                     PressedLeftCtrl = false;
                     break;
-                case _keyLeftAlt:
-                    PressedLeftAlt = false;
-                    break;
-                case _keyC:
-                    PressedC = false;
+                case _keyD:
+                    PressedD = false;
                     break;
             }
         }
