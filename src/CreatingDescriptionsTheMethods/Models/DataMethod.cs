@@ -48,16 +48,16 @@ namespace CreatingDescriptionsTheMethods.Models
             builderDescription.AppendLine("// Параметры:");
 
             if (_parametersMethod.Count == 0)
-                builderDescription.AppendLine("//\t\t- -");
+                builderDescription.AppendLine("//\t\t-  - ");
             else
                 foreach (string parameterName in _parametersMethod)
-                    builderDescription.AppendLine($"//\t\t{parameterName} - -");
+                    builderDescription.AppendLine($"//\t\t{parameterName} -  - ");
 
             if (StringIsFunction)
             {
                 builderDescription.AppendLine("//");
                 builderDescription.AppendLine("// Возвращаемое значение:");
-                builderDescription.AppendLine("//\t\t- ");
+                builderDescription.AppendLine("//\t\t - ");
             }
 
             builderDescription.AppendLine("//");
