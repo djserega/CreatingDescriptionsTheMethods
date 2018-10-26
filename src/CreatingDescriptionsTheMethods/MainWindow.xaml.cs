@@ -34,6 +34,7 @@ namespace CreatingDescriptionsTheMethods
             DataMethod.StringMethod = Clipboard.GetText();
 
             BindingOperations.GetBindingExpression(TextBoxDescription, TextBox.TextProperty).UpdateTarget();
+            BindingOperations.GetBindingExpression(TextBlockError, TextBlock.TextProperty).UpdateTarget();
         }
 
         private void ButtonTextToClipboard_Click(object sender, RoutedEventArgs e)

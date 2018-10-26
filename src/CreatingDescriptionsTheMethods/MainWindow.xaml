@@ -12,6 +12,7 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
@@ -50,8 +51,14 @@
                     </Button>
                 </Grid>
             </Grid>
-            
+
             <Grid Grid.Row="1">
+                <TextBlock x:Name="TextBlockError"
+                           Text="{Binding ElementName=MainForm, Path=DataMethod.TextError, Mode=OneTime, UpdateSourceTrigger=PropertyChanged}"
+                           Height="20"/>
+            </Grid>
+            
+            <Grid Grid.Row="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
@@ -61,7 +68,8 @@
                 <TextBox Grid.Row="1"
                          x:Name="TextBoxDescription"
                          TextWrapping="Wrap"
-                         Text="{Binding ElementName=MainForm, Path=DataMethod.Description, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Background="#FFD9F2FB"/>
+                         Background="#FFD9F2FB"
+                         Text="{Binding ElementName=MainForm, Path=DataMethod.Description, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
         </Grid>
     </Grid>
