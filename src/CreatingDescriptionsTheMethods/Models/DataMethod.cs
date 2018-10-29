@@ -22,6 +22,7 @@ namespace CreatingDescriptionsTheMethods.Models
 
         private bool StringIsFunction { get => StringMethod.TrimStart().StartsWith("функция", true, null); }
         private bool StringIsProcedure { get => StringMethod.TrimStart().StartsWith("процедура", true, null); }
+        private bool StringIsCompilationDirective { get => StartWithCompilationDirective(StringMethod); }
 
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -32,7 +33,7 @@ namespace CreatingDescriptionsTheMethods.Models
             TextError = string.Empty;
             Description = string.Empty;
 
-            if (StringIsFunction || StringIsProcedure)
+            if (StringIsFunction || StringIsProcedure || StringIsCompilationDirective)
                 CompileDescription();
             else
                 TextError = "Строка метода должна начинаться со слова: 'Процедура' или 'Функция'.";
@@ -75,8 +76,7 @@ namespace CreatingDescriptionsTheMethods.Models
 
             string parser = _stringMethod;
 
-            parser = parser.RemoveStartText("процедура");
-            parser = parser.RemoveStartText("функция");
+            parser = RemoveNonUsedStartText(parser);
             parser = parser.TrimStart();
 
             int countOpeningBracket = parser.Count(f => f == '(');
@@ -118,5 +118,25 @@ namespace CreatingDescriptionsTheMethods.Models
                 }
             }
         }
+
+        private static string RemoveNonUsedStartText(string parser)
+        {
+            parser = parser.RemoveStartText("Процедура");
+            parser = parser.RemoveStartText("Функция");
+            parser = parser.RemoveStartText("&НаКлиенте");
+            parser = parser.RemoveStartText("&НаСервере");
+            parser = parser.RemoveStartText("&НаСервереБезКонтекста");
+            parser = parser.RemoveStartText("&НаКлиентеНаСервереБезКонтекста");
+            return parser;
+        }
+
+        private static bool StartWithCompilationDirective(string value)
+        {
+            return value.TrimStart().StartsWith("&НаКлиенте", true, null)
+                || value.TrimStart().StartsWith("&НаСервере", true, null)
+                || value.TrimStart().StartsWith("&НаСервереБезКонтекста", true, null)
+                || value.TrimStart().StartsWith("&НаКлиентеНаСервереБезКонтекста", true, null);
+        }
+
     }
 }
