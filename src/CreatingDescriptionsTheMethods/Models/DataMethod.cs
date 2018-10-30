@@ -82,9 +82,10 @@ namespace CreatingDescriptionsTheMethods.Models
             int countOpeningBracket = parser.Count(f => f == '(');
             if (countOpeningBracket == 1)
             {
+                parser = parser.RemoveSpace();
+
                 int positionOpeningBracket = parser.IndexOf("(");
 
-                parser = parser.RemoveSpace();
                 parser = parser.Substring(positionOpeningBracket + 1);
 
                 int countClosingBracket = parser.Count(f => f == ')');
