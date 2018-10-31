@@ -13,18 +13,18 @@ namespace CreatingDescriptionsTheMethods.Models
     public class DataMethod : INotifyPropertyChanged
     {
         private string _stringMethod;
+        private string _stringMethodWithoutDirectiveCompilation;
+
         private List<ObjectParameter> _parametersMethod = new List<ObjectParameter>();
 
         public string StringMethod { get => _stringMethod; set { _stringMethod = value; SetDescription(); } }
         public string Description { get; set; } = string.Empty;
-        public string TextError { get; private set; } = string.Empty;
+        public string TextError { get; private set; } = string.Empty;              
         public bool IncludeStringMethod { get; set; } = true;
 
-        private bool StringIsFunction { get => StringMethod.TrimStart().StartsWith("функция", true, null); }
-        private bool StringIsProcedure { get => StringMethod.TrimStart().StartsWith("процедура", true, null); }
-        private bool StringIsCompilationDirective { get => StartWithCompilationDirective(StringMethod); }
-
-
+        private bool StringIsFunction { get => _stringMethodWithoutDirectiveCompilation.TrimStart().StartsWith("функция", true, null); }
+        private bool StringIsProcedure { get => _stringMethodWithoutDirectiveCompilation.TrimStart().StartsWith("процедура", true, null); }
+        
         public event PropertyChangedEventHandler PropertyChanged;
         public virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
@@ -33,7 +33,9 @@ namespace CreatingDescriptionsTheMethods.Models
             TextError = string.Empty;
             Description = string.Empty;
 
-            if (StringIsFunction || StringIsProcedure || StringIsCompilationDirective)
+            _stringMethodWithoutDirectiveCompilation = RemoveNonUsedStartText(_stringMethod, false);
+
+            if (StringIsFunction || StringIsProcedure)
                 CompileDescription();
             else
                 TextError = "Строка метода должна начинаться со слова: 'Процедура' или 'Функция'.";
@@ -77,7 +79,6 @@ namespace CreatingDescriptionsTheMethods.Models
             string parser = _stringMethod;
 
             parser = RemoveNonUsedStartText(parser);
-            parser = parser.TrimStart();
 
             int countOpeningBracket = parser.Count(f => f == '(');
             if (countOpeningBracket == 1)
@@ -96,9 +97,9 @@ namespace CreatingDescriptionsTheMethods.Models
                     parser = parser.Replace("\n", "");
                     parser = parser.Replace("\t", "");
                     parser = parser.TrimEnd(';');
-                    parser = parser.TrimEnd(' ');
+                    parser = parser.TrimEnd();
                     parser = parser.RemoveEndText("Экспорт");
-                    parser = parser.TrimEnd(' ');
+                    parser = parser.TrimEnd();
                     parser = parser.TrimEnd(')');
 
                     string[] parserParameters = parser.Split(',');
@@ -120,24 +121,21 @@ namespace CreatingDescriptionsTheMethods.Models
             }
         }
 
-        private static string RemoveNonUsedStartText(string parser)
+        private static string RemoveNonUsedStartText(string parser, bool removeTypeMethod = true)
         {
-            parser = parser.RemoveStartText("Процедура");
-            parser = parser.RemoveStartText("Функция");
-            parser = parser.RemoveStartText("&НаКлиенте");
-            parser = parser.RemoveStartText("&НаСервере");
-            parser = parser.RemoveStartText("&НаСервереБезКонтекста");
             parser = parser.RemoveStartText("&НаКлиентеНаСервереБезКонтекста");
+            parser = parser.RemoveStartText("&НаСервереБезКонтекста");
+            parser = parser.RemoveStartText("&НаСервере");
+            parser = parser.RemoveStartText("&НаКлиенте");
+            parser = parser.TrimStart();
+            if (removeTypeMethod)
+            {
+                parser = parser.RemoveStartText("Процедура");
+                parser = parser.RemoveStartText("Функция");
+            }
+            parser = parser.TrimStart();
+
             return parser;
         }
-
-        private static bool StartWithCompilationDirective(string value)
-        {
-            return value.TrimStart().StartsWith("&НаКлиенте", true, null)
-                || value.TrimStart().StartsWith("&НаСервере", true, null)
-                || value.TrimStart().StartsWith("&НаСервереБезКонтекста", true, null)
-                || value.TrimStart().StartsWith("&НаКлиентеНаСервереБезКонтекста", true, null);
-        }
-
     }
 }
