@@ -17,9 +17,12 @@ namespace CreatingDescriptionsTheMethods.Models
         internal bool IsValueList { get => NameStartsWith("сз"); }
         internal bool IsValueTable { get => NameStartsWith("тз"); }
         internal bool IsValueTree { get => NameStartsWith("дз"); }
+
         internal bool IsFixedArray { get => NameStartsWith("фмс"); }
         internal bool IsFixedMap { get => NameStartsWith("фсо"); }
         internal bool IsFixedStructure { get => NameStartsWith("фст"); }
+
+        internal bool IsReference { get => NameStartsWith("спр"); }
 
 
         private bool NameStartsWith(string text) => Name.StartsWith(text);
@@ -44,6 +47,8 @@ namespace CreatingDescriptionsTheMethods.Models
                 Type = "ФиксированноеСоответствие";
             else if (IsFixedStructure)
                 Type = "ФиксированнаяСтруктура";
+            else if (IsReference)
+                Type = "СправочникСсылка";
         }
 
     }
