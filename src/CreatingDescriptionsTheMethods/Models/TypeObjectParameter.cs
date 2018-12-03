@@ -28,7 +28,20 @@ namespace CreatingDescriptionsTheMethods.Models
         internal bool IsDynamicList { get => NameStartsWith("дс"); }
 
 
-        internal bool IsString { get => Name == "ИмяПараметра"; }
+        internal bool IsString
+        {
+            get
+            {
+                switch (Name)
+                {
+                    case "ИмяПараметра":
+                    case "Штрихкод":
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        }
 
 
         private bool NameStartsWith(string text) => Name.StartsWith(text, true, null);
