@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,7 +60,24 @@ namespace CreatingDescriptionsTheMethods
 
         private void SetDescriptionToClipboard()
         {
-            Clipboard.SetText(DataMethod.Description);
+            try
+            {
+                Clipboard.SetText(DataMethod.Description);
+            }
+            catch (Exception ex)
+            {
+                using (EventLog eventLog = new EventLog("Application"))
+                {
+                    eventLog.Source = "Application";
+                    eventLog.WriteEntry(
+                        ex.Message
+                        + "\n" +
+                        ex.InnerException?.Message
+                        + "\n" +
+                        ex.InnerException?.InnerException?.Message,
+                        EventLogEntryType.Warning);
+                }
+            }
         }
     }
 }
