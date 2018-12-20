@@ -36,6 +36,7 @@ namespace CreatingDescriptionsTheMethods.Models
                 {
                     case "ИмяПараметра":
                     case "Штрихкод":
+                    case "ИмяКоманды":
                         return true;
                     default:
                         return false;
