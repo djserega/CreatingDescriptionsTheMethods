@@ -43,6 +43,7 @@ namespace CreatingDescriptionsTheMethods.Models
                 }
             }
         }
+        internal bool IsBoolean { get => Name.ToUpper() == "ОТКАЗ"; }
 
 
         private bool NameStartsWith(string text) => Name.StartsWith(text, true, null);
@@ -78,6 +79,9 @@ namespace CreatingDescriptionsTheMethods.Models
 
             else if (IsString)
                 Type = "Строка";
+            else if (IsBoolean)
+                Type = "Булево";
+
         }
 
     }
