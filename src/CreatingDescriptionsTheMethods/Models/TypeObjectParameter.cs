@@ -6,29 +6,29 @@ using System.Threading.Tasks;
 
 namespace CreatingDescriptionsTheMethods.Models
 {
-    internal class TypeObjectParameter
+    public class TypeObjectParameter
     {
-        internal virtual string Name { get; set; }
-        internal virtual string Type { get; set; }
+        public virtual string Name { get; set; }
+        public virtual string Type { get; set; }
 
-        internal bool IsArray { get => NameStartsWith("мс"); }
-        internal bool IsMap { get => NameStartsWith("со"); }
-        internal bool IsStructure { get => NameStartsWith("ст"); }
-        internal bool IsValueList { get => NameStartsWith("сз"); }
-        internal bool IsValueTable { get => NameStartsWith("тз"); }
-        internal bool IsValueTree { get => NameStartsWith("дз"); }
+        public bool IsArray { get => NameStartsWith("мс"); }
+        public bool IsMap { get => NameStartsWith("со"); }
+        public bool IsStructure { get => NameStartsWith("ст"); }
+        public bool IsValueList { get => NameStartsWith("сз"); }
+        public bool IsValueTable { get => NameStartsWith("тз"); }
+        public bool IsValueTree { get => NameStartsWith("дз"); }
 
-        internal bool IsFixedArray { get => NameStartsWith("фмс"); }
-        internal bool IsFixedMap { get => NameStartsWith("фсо"); }
-        internal bool IsFixedStructure { get => NameStartsWith("фст"); }
+        public bool IsFixedArray { get => NameStartsWith("фмс"); }
+        public bool IsFixedMap { get => NameStartsWith("фсо"); }
+        public bool IsFixedStructure { get => NameStartsWith("фст"); }
 
-        internal bool IsReference { get => NameStartsWith("спр"); }
-        internal bool IsDocument { get => NameStartsWith("док"); }
+        public bool IsReference { get => NameStartsWith("спр"); }
+        public bool IsDocument { get => NameStartsWith("док"); }
 
-        internal bool IsDynamicList { get => NameStartsWith("дс"); }
+        public bool IsDynamicList { get => NameStartsWith("дс"); }
 
 
-        internal bool IsString
+        public bool IsString
         {
             get
             {
@@ -43,12 +43,12 @@ namespace CreatingDescriptionsTheMethods.Models
                 }
             }
         }
-        internal bool IsBoolean { get => Name.ToUpper() == "ОТКАЗ"; }
+        public bool IsBoolean { get => Name.ToUpper() == "ОТКАЗ"; }
 
 
         private bool NameStartsWith(string text) => Name.StartsWith(text, true, null);
 
-        internal void SetTypeByName()
+        public void SetTypeByName()
         {
             if (IsArray)
                 Type = "Массив";

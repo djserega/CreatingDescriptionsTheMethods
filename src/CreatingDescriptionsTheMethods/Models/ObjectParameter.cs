@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CreatingDescriptionsTheMethods.Models
 {
-    internal class ObjectParameter : TypeObjectParameter
+    public class ObjectParameter : TypeObjectParameter
     {
         public ObjectParameter()
         {
@@ -30,8 +30,8 @@ namespace CreatingDescriptionsTheMethods.Models
             Description = description;
         }
 
-        internal override string Name { get; set; }
-        internal override string Type { get; set; }
-        internal string Description { get; set; }
+        public override string Name { get; set; }
+        public override string Type { get; set; }
+        public string Description { get; set; }
     }
 }

@@ -15,8 +15,6 @@ namespace CreatingDescriptionsTheMethods.Models
         private string _stringMethod;
         private string _stringMethodWithoutDirectiveCompilation;
 
-        private List<ObjectParameter> _parametersMethod = new List<ObjectParameter>();
-
         public string StringMethod
         {
             get => _stringMethod;
@@ -34,7 +32,9 @@ namespace CreatingDescriptionsTheMethods.Models
         {
             get => _stringMethodWithoutDirectiveCompilation.TrimStart().StartsWith("процедура", true, null);
         }
-        
+
+        public List<ObjectParameter> ParametersMethods { get; } = new List<ObjectParameter>();
+
         public event PropertyChangedEventHandler PropertyChanged;
         public virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "") 
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -62,10 +62,10 @@ namespace CreatingDescriptionsTheMethods.Models
             builderDescription.AppendLine("//");
             builderDescription.AppendLine("// Параметры:");
 
-            if (_parametersMethod.Count == 0)
+            if (ParametersMethods.Count == 0)
                 builderDescription.AppendLine("//\t\t-  - ");
             else
-                foreach (ObjectParameter parameter in _parametersMethod)
+                foreach (ObjectParameter parameter in ParametersMethods)
                     builderDescription.AppendLine($"//\t\t" +
                         $"{parameter.Name} " +
                         $"- {parameter.Type} " +
@@ -88,7 +88,7 @@ namespace CreatingDescriptionsTheMethods.Models
 
         private void SetParametersMethod()
         {
-            _parametersMethod.Clear();
+            ParametersMethods.Clear();
 
             string parser = _stringMethod;
 
@@ -129,7 +129,7 @@ namespace CreatingDescriptionsTheMethods.Models
                             ObjectParameter objectParameter = new ObjectParameter(paramenterName);
                             objectParameter.SetTypeByName();
 
-                            _parametersMethod.Add(objectParameter);
+                            ParametersMethods.Add(objectParameter);
                         }
                 }
             }

@@ -43,13 +43,17 @@ namespace CreatingDescriptionsTheMethods.Models.Tests
         {
             foreach (string methodName in _methodsNames)
             {
-                DataMethod methodNotEmpty = new DataMethod
+                DataMethod method = new DataMethod
                 {
                     StringMethod = methodName
                 };
-                WriteResultParseMethodName(methodNotEmpty);
+                WriteResultParseMethodName(method);
 
-                Assert.AreNotEqual(string.Empty, methodNotEmpty.Description);
+                Assert.AreNotEqual(string.Empty, method.Description);
+
+                int countComma = methodName.Count(f => f == ',');
+                if (countComma > 0)
+                    Assert.AreEqual(++countComma, method.ParametersMethods.Count);
             }
         }
 
@@ -82,12 +86,12 @@ namespace CreatingDescriptionsTheMethods.Models.Tests
 
                 if (addParameters)
                 {
-                    AppendParameterMethod(stringBuilder, "мс");
-                    AppendParameterMethod(stringBuilder, "со");
-                    AppendParameterMethod(stringBuilder, "ст");
-                    AppendParameterMethod(stringBuilder, "сз");
-                    AppendParameterMethod(stringBuilder, "тз");
-                    AppendParameterMethod(stringBuilder, "дз");
+                    AppendParameterMethod(stringBuilder, "мс"); 
+                    AppendParameterMethod(stringBuilder, "со"); 
+                    AppendParameterMethod(stringBuilder, "ст"); 
+                    AppendParameterMethod(stringBuilder, "сз"); 
+                    AppendParameterMethod(stringBuilder, "тз"); 
+                    AppendParameterMethod(stringBuilder, "дз"); 
 
                     AppendParameterMethod(stringBuilder, "фмс");
                     AppendParameterMethod(stringBuilder, "фсо");
@@ -96,25 +100,36 @@ namespace CreatingDescriptionsTheMethods.Models.Tests
                     AppendParameterMethod(stringBuilder, "спр");
                     AppendParameterMethod(stringBuilder, "док");
 
-                    AppendParameterMethod(stringBuilder, "дс");
+                    AppendParameterMethod(stringBuilder, "дс"); 
 
-                    AppendParameterMethod(stringBuilder, "ИмяПараметра");
-                    AppendParameterMethod(stringBuilder, "Штрихкод");
-                    AppendParameterMethod(stringBuilder, "ИмяКоманды");
+                    AppendParameterMethod(stringBuilder, "ИмяПараметра"); 
+                    AppendParameterMethod(stringBuilder, "Штрихкод"); 
+                    AppendParameterMethod(stringBuilder, "ИмяКоманды"); 
 
-                    AppendParameterMethod(stringBuilder, "отказ", false);
+                    AppendParameterMethod(stringBuilder, "отказ", false, "Ложь"); 
                 }
 
                 stringBuilder.Append(")");
 
-                AddMethodWithCompilationDirectives(stringBuilder.ToString());
+                string methodName = stringBuilder.ToString();
+
+                AddMethodWithCompilationDirectives(methodName);
+                AddMethodWithCompilationDirectives($"{methodName} Экспорт ");
             }
        }
 
-        private static void AppendParameterMethod(StringBuilder stringBuilder, string prefixParameter, bool addComma = true)
+        private static void AppendParameterMethod(
+            StringBuilder stringBuilder,
+            string prefixParameter,
+            bool addComma = true,
+            string valueParameterByDefault = null)
         {
-            stringBuilder.Append($"Знач {prefixParameter}Параметр, ");
-            stringBuilder.Append($"{prefixParameter}{(addComma ? ", " : "")}");
+            string textDefaultValue = string.IsNullOrEmpty(valueParameterByDefault)
+                ? ""
+                : $" = {valueParameterByDefault}";
+
+            stringBuilder.Append($"Знач {prefixParameter}Параметр{textDefaultValue}, ");
+            stringBuilder.Append($"{prefixParameter}{textDefaultValue}{(addComma ? ", " : "")}");
         }
 
         private void AddMethodWithCompilationDirectives(string methodName)
