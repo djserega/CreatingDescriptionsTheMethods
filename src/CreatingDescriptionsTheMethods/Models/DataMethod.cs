@@ -17,16 +17,27 @@ namespace CreatingDescriptionsTheMethods.Models
 
         private List<ObjectParameter> _parametersMethod = new List<ObjectParameter>();
 
-        public string StringMethod { get => _stringMethod; set { _stringMethod = value; SetDescription(); } }
+        public string StringMethod
+        {
+            get => _stringMethod;
+            set { _stringMethod = value; SetDescription(); }
+        }
         public string Description { get; set; } = string.Empty;
         public string TextError { get; private set; } = string.Empty;              
         public bool IncludeStringMethod { get; set; } = true;
 
-        private bool StringIsFunction { get => _stringMethodWithoutDirectiveCompilation.TrimStart().StartsWith("функция", true, null); }
-        private bool StringIsProcedure { get => _stringMethodWithoutDirectiveCompilation.TrimStart().StartsWith("процедура", true, null); }
+        private bool StringIsFunction
+        {
+            get => _stringMethodWithoutDirectiveCompilation.TrimStart().StartsWith("функция", true, null);
+        }
+        private bool StringIsProcedure
+        {
+            get => _stringMethodWithoutDirectiveCompilation.TrimStart().StartsWith("процедура", true, null);
+        }
         
         public event PropertyChangedEventHandler PropertyChanged;
-        public virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        public virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "") 
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         private void SetDescription()
         {
@@ -55,7 +66,10 @@ namespace CreatingDescriptionsTheMethods.Models
                 builderDescription.AppendLine("//\t\t-  - ");
             else
                 foreach (ObjectParameter parameter in _parametersMethod)
-                    builderDescription.AppendLine($"//\t\t{parameter.Name} - {parameter.Type} - {parameter.Description}");
+                    builderDescription.AppendLine($"//\t\t" +
+                        $"{parameter.Name} " +
+                        $"- {parameter.Type} " +
+                        $"- {parameter.Description}");
 
             if (StringIsFunction)
             {
