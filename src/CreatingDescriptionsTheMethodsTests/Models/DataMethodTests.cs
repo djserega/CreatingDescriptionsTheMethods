@@ -63,6 +63,8 @@ namespace CreatingDescriptionsTheMethods.Models.Tests
             Console.WriteLine();
             Console.WriteLine($"Description:\n{method.Description}");
             Console.WriteLine();
+            Console.WriteLine("Text error:");
+            Console.WriteLine(method.TextError);
             Console.WriteLine("--------------------------------------");
             Console.WriteLine();
         }
